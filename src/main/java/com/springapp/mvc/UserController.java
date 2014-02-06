@@ -38,7 +38,6 @@ public class UserController {
             userJSON.put("firstName", user.getFirstName());
             userJSON.put("lastName", user.getLastName());
             userJSON.put("email", user.getEmail());
-            userJSON.put("birthDate", user.getBirthDate());
             userArray.put(userJSON);
         }
         return userArray.toString();

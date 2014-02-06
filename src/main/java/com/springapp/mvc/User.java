@@ -26,9 +26,13 @@ public class User {
     @NotEmpty @Email
     private String email;
 
-    @DateTimeFormat(pattern="MM/dd/yyyy")
-    private Date birthDate;
+    public User() {};
 
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
     public Long getId() {
         return id;
     }
@@ -60,8 +64,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public Date getBirthDate() { return birthDate; }
-
-    public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
 }

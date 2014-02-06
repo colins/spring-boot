@@ -41,13 +41,6 @@
                 </div>
             </div>
             <div class="control-group">
-                <form:label cssClass="control-label" path="email">Date of Birth:</form:label>
-                <div class="controls">
-                    <form:input path="birthDate"/>
-                    <form:errors path="birthDate" cssclass="error"></form:errors>
-                </div>
-            </div>
-            <div class="control-group">
                 <div class="controls">
                     <input type="submit" value="Add User" class="btn"/>
                     </form:form>
@@ -61,7 +54,6 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Date of Birth</th>
                         <th>&nbsp;</th>
                     </tr>
                     </thead>
@@ -70,7 +62,6 @@
                         <tr>
                             <td>${user.lastName}, ${user.firstName}</td>
                             <td>${user.email}</td>
-                            <td>${user.birthDate}</td>
                             <td>
                                 <form action="delete/${user.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form>
                             </td>
