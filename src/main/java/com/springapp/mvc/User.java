@@ -3,7 +3,13 @@ package com.springapp.mvc;
 /**
  * Created by pivotal on 1/22/14.
  */
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 import javax.persistence.*;
+
 
 @Entity(name = "account")
 public class User {
@@ -11,14 +17,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Basic
+    @NotEmpty
     private String firstName;
 
-    @Basic
+    @NotEmpty
     private String lastName;
 
-    @Basic
+    @NotEmpty @Email
     private String email;
+
+    @DateTimeFormat(pattern="MM/dd/yyyy")
+    private Date birthDate;
 
     public Long getId() {
         return id;
@@ -51,4 +60,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Date getBirthDate() { return birthDate; }
+
+    public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
 }

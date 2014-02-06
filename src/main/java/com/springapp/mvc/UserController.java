@@ -3,13 +3,19 @@ package com.springapp.mvc;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.jmx.export.annotation.ManagedMetric;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
+@EnableAutoConfiguration
 public class UserController {
     @Autowired
     private UserRepository userRepository;
@@ -32,13 +38,18 @@ public class UserController {
             userJSON.put("firstName", user.getFirstName());
             userJSON.put("lastName", user.getLastName());
             userJSON.put("email", user.getEmail());
+            userJSON.put("birthDate", user.getBirthDate());
             userArray.put(userJSON);
         }
         return userArray.toString();
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("user") User user, BindingResult result) {
+    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error", bindingResult.getFieldError().getDefaultMessage());
+            return "redirect:/";
+        }
         userRepository.save(user);
         return "redirect:/";
     }
