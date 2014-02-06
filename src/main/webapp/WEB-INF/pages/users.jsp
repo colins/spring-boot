@@ -26,18 +26,21 @@
                 <form:label cssClass="control-label" path="firstName">First Name:</form:label>
                 <div class="controls">
                     <form:input path="firstName"/>
+                    <form:errors path="firstName" cssClass="error" />
                 </div>
             </div>
             <div class="control-group">
                 <form:label cssClass="control-label" path="lastName">Last Name:</form:label>
                 <div class="controls">
                     <form:input path="lastName"/>
+                    <form:errors path="lastName" cssClass="error" />
                 </div>
             </div>
             <div class="control-group">
                 <form:label cssClass="control-label" path="email">Email:</form:label>
                 <div class="controls">
                     <form:input path="email"/>
+                    <form:errors path="email" cssClass="error" />
                 </div>
             </div>
             <div class="control-group">

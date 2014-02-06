@@ -47,7 +47,7 @@ public class UserController {
     public String addUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error", bindingResult.getFieldError().getDefaultMessage());
-            return "redirect:/";
+            return "users";
         }
         userRepository.save(user);
         return "redirect:/";
