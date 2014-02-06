@@ -19,16 +19,21 @@ import javax.el.ExpressionFactory.*;
 public class UserTest {
 
     private static Validator validator;
+    private User user;
 
     @Before
     public void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+        user = new User();
+        user.setFirstName("Joe");
+        user.setLastName("Bloggs");
+        user.setEmail("email@example.com");
     }
 
     @Test
     public void firstNameIsEmpty() {
-        User user = new User( "", "Bloggs", "email@example.com");
+        user.setFirstName("");
         Set<ConstraintViolation<User>> constraintViolations =
                 validator.validate( user );
 
@@ -41,7 +46,7 @@ public class UserTest {
 
     @Test
     public void lastNameIsEmpty() {
-        User user = new User( "Joe", "", "email@example.com");
+        user.setLastName("");
         Set<ConstraintViolation<User>> constraintViolations =
                 validator.validate( user );
 
@@ -54,7 +59,7 @@ public class UserTest {
 
     @Test
     public void emailIsEmpty() {
-        User user = new User( "Joe", "Bloggs", "");
+        user.setEmail("");
         Set<ConstraintViolation<User>> constraintViolations =
                 validator.validate( user );
 
@@ -67,7 +72,7 @@ public class UserTest {
 
     @Test
     public void emailIsInvalid() {
-        User user = new User( "Joe", "Bloggs", "Not An Email");
+        user.setEmail("Not An Email");
         Set<ConstraintViolation<User>> constraintViolations =
                 validator.validate( user );
 
