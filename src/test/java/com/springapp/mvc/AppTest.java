@@ -49,6 +49,13 @@ public class AppTest {
                 .param("email", "email@example.com")
         ).andExpect(status().isFound());
 
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("users"))
+                .andExpect(model().size(1))
+        ;
+
+
         mockMvc.perform(get("/api/users"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].firstName").value("Joe"))
