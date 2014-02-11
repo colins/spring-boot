@@ -24,6 +24,7 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="defaultPersistenceUnit" value="fecadf81-90ee-464c-b94e-b07287c39769" />
+          <factory-entry name="testPersistenceUnit" value="0f60d348-4832-40b4-86fb-03625a9efa10" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
@@ -109,6 +110,8 @@
     <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator-cdi:5.0.3.Final" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20080701" level="project" />
+    <orderEntry type="library" name="Maven: postgresql:postgresql:9.1-901-1.jdbc4" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.7.4" level="project" />
   </component>
 </module>
 

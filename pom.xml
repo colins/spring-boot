@@ -8,6 +8,7 @@
     <name>HelloWorld</name>
     <properties>
         <spring.version>4.0.1.RELEASE</spring.version>
+        <flyway.SQL.directory>./src/main/resources/db/migration</flyway.SQL.directory>
     </properties>
     <dependencies>
         <dependency>
@@ -133,6 +134,16 @@
             <artifactId>json</artifactId>
             <version>20080701</version>
         </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4 </version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -153,6 +164,18 @@
                     </includes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.googlecode.flyway</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <user>pivotal</user>
+                    <password>""</password>
+                    <url>${database.url}</url>
+                    <outOfOrder>true</outOfOrder>
+                    <cleanOnValidationError>${cleanOnValidationError}</cleanOnValidationError>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <repositories>
@@ -165,4 +188,21 @@
             </snapshots>
         </repository>
     </repositories>
+    <profiles>
+        <profile>
+            <activation><activeByDefault>true</activeByDefault></activation>
+            <id>spring-dev</id>
+            <properties>
+                <database.url>jdbc:postgresql://localhost:5432/spring_dev</database.url>
+                <cleanOnValidationError>false</cleanOnValidationError>
+            </properties>
+        </profile>
+        <profile>
+            <id>spring-test</id>
+            <properties>
+                <database.url>jdbc:postgresql://localhost:5432/spring_test</database.url>
+                <cleanOnValidationError>true</cleanOnValidationError>
+            </properties>
+        </profile>
+    </profiles>
 </project>
