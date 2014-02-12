@@ -21,7 +21,7 @@
     <div class="row">
         <div class="span8 offset2">
             <h1>Users</h1>
-            <form:form method="post" action="add" commandName="user" class="form-horizontal">
+            <form:form method="post" action="add" commandName="user" class="form-horizontal" name="user">
             <div class="control-group">
                 <form:label cssClass="control-label" path="firstName">First Name:</form:label>
                 <div class="controls">

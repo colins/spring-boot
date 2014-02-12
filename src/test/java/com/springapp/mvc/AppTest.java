@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.aspectj.util.*;
@@ -41,6 +42,7 @@ public class AppTest {
 
     @Test
     public void simple() throws Exception {
+
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"));
@@ -54,6 +56,9 @@ public class AppTest {
                 .param("email", "email@example.com")
         ).andExpect(status().isFound());
 
+        MvcResult result =  mockMvc.perform(get("/api/users")).andReturn();
+
+//        Thread.sleep(100000);
         mockMvc.perform(get("/api/users"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].firstName").value("Joe"))
