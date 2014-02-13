@@ -9,10 +9,22 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import com.googlecode.flyway.test.annotation.FlywayTest;
+//import com.googlecode.flyway.*;
+import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import java.net.SocketPermission;
 
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("file:src/main/webapp/WEB-INF/test-dispatcher-servlet.xml")
+//@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, FlywayTestExecutionListener.class })
 public class FormTest {
     @Test
     public void homePage() throws Exception {
@@ -22,6 +34,7 @@ public class FormTest {
     }
 
     @Test
+    @FlywayTest
     public void postForm() throws Exception {
         final WebClient webClient = new WebClient();
         final HtmlPage page = webClient.getPage("http://localhost:3000/");
@@ -39,6 +52,7 @@ public class FormTest {
 
         final HtmlPage page2 = button.click();
 
-        Assert.assertTrue(page.asText().contains("Smith, Jim\tjim@smith.com"));
+
+        Assert.assertTrue(page2.asText().contains("Smith, Jim\tjim@smith.com"));
     }
 }

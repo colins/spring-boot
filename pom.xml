@@ -153,16 +153,86 @@
             <artifactId>htmlunit</artifactId>
             <version>2.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.flyway-test-extensions</groupId>
+            <artifactId>flyway-spring4-test</artifactId>
+            <version>2.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.flyway</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>2.3</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>HelloWorld</finalName>
+        <resources>
+            <resource>
+                <directory>
+                    src/main/filter
+                </directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>
+                    src/main/resources
+                </directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>war</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                        <configuration>
+                            <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                            <filters>
+                                <filter>${basedir}/src/main/filter/${webapp.filter}.properties</filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/resources</directory>
+                            <includes>
+                                <include>**/web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                 </configuration>
             </plugin>
             <plugin>
@@ -185,6 +255,28 @@
                     <cleanOnValidationError>${cleanOnValidationError}</cleanOnValidationError>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <id>tomcat</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                            <filters>
+                                <filter>/User/pivotal/workspace/spring-boot/src/main/filter/${webapp.filter}.properties</filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <repositories>
@@ -204,6 +296,9 @@
             <properties>
                 <database.url>jdbc:postgresql://localhost:5432/spring_dev</database.url>
                 <cleanOnValidationError>false</cleanOnValidationError>
+                <webapp.filter>spring-dev</webapp.filter>
+                <dispatcher.servlet>mvc-dispatcher</dispatcher.servlet>
+                <databaseName>spring_dev</databaseName>
             </properties>
         </profile>
         <profile>
@@ -211,6 +306,9 @@
             <properties>
                 <database.url>jdbc:postgresql://localhost:5432/spring_test</database.url>
                 <cleanOnValidationError>true</cleanOnValidationError>
+                <webapp.filter>spring-test</webapp.filter>
+                <dispatcher.servlet>test-dispatcher</dispatcher.servlet>
+                <databaseName>spring_test</databaseName>
             </properties>
         </profile>
     </profiles>
