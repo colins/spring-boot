@@ -182,7 +182,6 @@
                     <password>""</password>
                     <url>${database.url}</url>
                     <outOfOrder>true</outOfOrder>
-                    <cleanOnValidationError>${cleanOnValidationError}</cleanOnValidationError>
                 </configuration>
             </plugin>
         </plugins>
@@ -203,14 +202,12 @@
             <id>spring-dev</id>
             <properties>
                 <database.url>jdbc:postgresql://localhost:5432/spring_dev</database.url>
-                <cleanOnValidationError>false</cleanOnValidationError>
             </properties>
         </profile>
         <profile>
             <id>spring-test</id>
             <properties>
                 <database.url>jdbc:postgresql://localhost:5432/spring_test</database.url>
-                <cleanOnValidationError>true</cleanOnValidationError>
             </properties>
         </profile>
     </profiles>
