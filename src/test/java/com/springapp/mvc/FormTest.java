@@ -12,6 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.googlecode.flyway.test.annotation.FlywayTest;
 //import com.googlecode.flyway.*;
 import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
+import org.aspectj.lang.annotation.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +20,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.SocketPermission;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("file:src/main/webapp/WEB-INF/test-dispatcher-servlet.xml")
-//@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, FlywayTestExecutionListener.class })
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration("file:src/main/webapp/WEB-INF/test-dispatcher-servlet.xml")
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, FlywayTestExecutionListener.class })
+@FlywayTest
 public class FormTest {
     @Test
     public void homePage() throws Exception {
@@ -34,7 +40,6 @@ public class FormTest {
     }
 
     @Test
-    @FlywayTest
     public void postForm() throws Exception {
         final WebClient webClient = new WebClient();
         final HtmlPage page = webClient.getPage("http://localhost:3000/");

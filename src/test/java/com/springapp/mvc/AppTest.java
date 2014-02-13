@@ -1,11 +1,21 @@
 package com.springapp.mvc;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import com.googlecode.flyway.test.annotation.FlywayTest;
+import com.googlecode.flyway.test.junit.FlywayTestExecutionListener;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,8 +36,10 @@ import org.springframework.http.MediaType;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("file:src/main/webapp/WEB-INF/test-dispatcher-servlet.xml")
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, FlywayTestExecutionListener.class })
 @TransactionConfiguration(transactionManager="transactionManager", defaultRollback=true)
 @Transactional
+@FlywayTest
 public class AppTest {
     private MockMvc mockMvc;
 
@@ -42,7 +54,6 @@ public class AppTest {
 
     @Test
     public void simple() throws Exception {
-
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"));
@@ -58,7 +69,6 @@ public class AppTest {
 
         MvcResult result =  mockMvc.perform(get("/api/users")).andReturn();
 
-//        Thread.sleep(100000);
         mockMvc.perform(get("/api/users"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].firstName").value("Joe"))
