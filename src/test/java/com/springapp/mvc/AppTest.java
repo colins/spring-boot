@@ -25,7 +25,7 @@ import org.springframework.http.MediaType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:src/main/webapp/WEB-INF/test-dispatcher-servlet.xml")
+@ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
 @TransactionConfiguration(transactionManager="transactionManager", defaultRollback=true)
 @Transactional
 public class AppTest {

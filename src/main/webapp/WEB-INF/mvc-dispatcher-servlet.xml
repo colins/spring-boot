@@ -13,15 +13,42 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <jpa:repositories base-package="com.springapp.mvc"/>
-
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="defaultPersistenceUnit"/>
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:application.properties"/>
     </bean>
 
+    <jpa:repositories base-package="com.springapp.mvc"/>
+
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="dataSourceRef" name="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="pivotal"/>
+        <property name="password" value=""/>
+        <property name="maxActive" value="-1"/>
+    </bean>
+
+    <bean id="flyway" class="com.googlecode.flyway.core.Flyway" depends-on="dataSourceRef">
+        <property name="dataSource" ref="dataSourceRef"/>
+        <property name="locations" value="/db/migration"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSourceRef"/>
+
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
+                <property name="database" value="POSTGRESQL"/>
+                <property name="showSql" value="true" />
+                <property name="generateDdl" value="true"/>
+            </bean>
+        </property>
+    </bean>
 </beans>
